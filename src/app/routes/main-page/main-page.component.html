@@ -1,18 +1,25 @@
 <main>
-  <app-search-bar (nameChange)="onNameChange($event)"></app-search-bar>
-  <div>
+  <header>
+    <app-search-bar (nameChange)="onNameChange($event)"></app-search-bar>
+  </header>
+  
+  <section aria-labelledby="data-section">
+    <h2 id="data-section">Character Data</h2>
     @if (totalPages$ | async; as totalPages) {
       <app-paginator
         [currentPage]="currentPage"
         [totalPages]="totalPages"
         [isDisabled]="isPaginatorDisabled"
-        (pageChange)="onPageChange($event)"></app-paginator>
+        (pageChange)="onPageChange($event)">
+      </app-paginator>
     }
     @if (currentPageData$ | async; as data) {
       <app-data-table [tableRows]="data" [isLoading]="isTableLoading"></app-data-table>
     } @else {
-      <p>Preparing your table...</p>
-      <app-loading-spinner></app-loading-spinner>
+      <div role="status">
+        <p>Loading character data...</p>
+        <app-loading-spinner></app-loading-spinner>
+      </div>
     }
-  </div>
+  </section>
 </main>

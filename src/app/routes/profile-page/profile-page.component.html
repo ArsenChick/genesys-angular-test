@@ -1,26 +1,35 @@
 <div>
-  <a role="button" [routerLink]="[homeLink]">Back</a>
+  <a [routerLink]="[homeLink]" aria-label="Go back to the home page">Back</a>
   <main>
     @if (characterData$ | async; as character) {
       @if (character.id !== -1) {
-        <img
-          [ngSrc]="character.image"
-          [alt]="character.name + ' Avatar'"
-          width="320" height="320"
-          priority
-        />
-        <ul>
-          <li>Name: {{character.name}}</li>
-          <li>Species: {{character.species}}</li>
-          <li>Gender: {{character.gender}}</li>
-          <li>Status: {{character.status}}</li>
-        </ul>
+        <article>
+          <figure>
+            <img
+              [ngSrc]="character.image"
+              [alt]="character.name + ' Avatar'"
+              width="320" height="320"
+              priority
+            />
+          </figure>
+          <dl>
+            <dt>Name:</dt>
+            <dd>{{character.name}}</dd>
+            <dt>Species:</dt>
+            <dd>{{character.species}}</dd>
+            <dt>Gender:</dt>
+            <dd>{{character.gender}}</dd>
+            <dt>Status:</dt>
+            <dd>{{character.status}}</dd>
+          </dl>
+        </article>
       } @else {
-        <p>It seems that the data... was not found! Or something is wrong with the server. Either way, you don't want to stay here probably.</p>
+        <section role="alert">
+          <p>It seems that the data was not found! Or something is wrong with the server. Either way, you don't want to stay here probably.</p>
+        </section>
       }
     } @else {
       <app-loading-spinner></app-loading-spinner>
     }
   </main>
 </div>
-

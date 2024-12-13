@@ -1,19 +1,32 @@
 <table>
-  <tr>
-    <th>Avatar</th>
-    <th>Name</th>
-    <th>Species</th>
-    <th>Status</th>
-  </tr>
+  @if (!isLoading && tableRows.length === 0) {
+    <caption>No rows to display!</caption>
+  }
+  @if (isLoading) {
+    <caption>Loading data...</caption>
+  }
+  <thead>
+    <tr>
+      <th scope="col">Avatar</th>
+      <th scope="col">Name</th>
+      <th scope="col">Species</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
   @if (!isLoading) {
-    @if (tableRows.length !== 0) {
+    <tbody>
       @for (row of tableRows; track row.id) {
-        <tr app-table-row [rowData]="row" (nameClick)="onNameClick($event)"></tr>
+        <tr
+          app-table-row
+          [rowData]="row"
+          (nameClick)="onNameClick($event)"
+        ></tr>
       }
-    } @else {
-      <p>No rows here!</p>
-    }
-  } @else {
-    <app-loading-spinner></app-loading-spinner>
+    </tbody>
   }
 </table>
+@if (isLoading) {
+  <app-loading-spinner></app-loading-spinner>
+}
+
+

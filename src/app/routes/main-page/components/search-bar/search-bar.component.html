@@ -1,4 +1,11 @@
 <div>
-  <label for="name">Search by name: </label>
-  <input id="name" type="text" [formControl]="searchBar">
+  <form role="search" aria-label="Search characters by name">
+    <label for="name">Search by name:</label>
+    <input
+      id="name"
+      type="text"
+      [formControl]="searchBar"
+      placeholder="Enter a character name"
+    />
+  </form>
 </div>

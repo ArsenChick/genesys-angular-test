@@ -1,3 +1,4 @@
-<div>
-    <img ngSrc={{imagePath}} width="128" height="128"/>
+<div role="status" aria-live="polite">
+    <img [ngSrc]="imagePath" width="128" height="128" alt="Loading..." priority>
+    <span class="visually-hidden">Loading...</span>
 </div>

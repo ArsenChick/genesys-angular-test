@@ -1,5 +1,6 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { LOADING_IMG_PATH } from '../../constants';
 
 @Component({
@@ -7,7 +8,8 @@ import { LOADING_IMG_PATH } from '../../constants';
   standalone: true,
   imports: [NgOptimizedImage],
   templateUrl: './loading-spinner.component.html',
-  styleUrl: './loading-spinner.component.scss'
+  styleUrl: './loading-spinner.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoadingSpinnerComponent {
   imagePath = LOADING_IMG_PATH;

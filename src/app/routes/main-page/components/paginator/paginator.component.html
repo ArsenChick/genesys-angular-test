@@ -1,17 +1,22 @@
-<div>
+<nav aria-label="Pagination">
   @if (totalPages > 0) {
-    <p>Page {{currentPage}} of {{totalPages}}</p>
+    <p>
+      <span aria-live="polite">Page {{currentPage}} of {{totalPages}}</span>
+    </p>
+    <button
+      (click)="onPageChange(currentPage - 1)"
+      [disabled]="isDisabled || totalPages <= 0 || currentPage === 1"
+      aria-label="Go to previous page"
+    >
+      Previous
+    </button>
+    <button
+      (click)="onPageChange(currentPage + 1)"
+      [disabled]="isDisabled || totalPages <= 0 || currentPage === totalPages"
+      aria-label="Go to next page"
+    >
+      Next
+    </button>
   }
-  <button
-    (click)="onPageChange(currentPage - 1)"
-    [disabled]="isDisabled || totalPages <= 0 || currentPage === 1"
-  >
-    prev
-  </button>
-  <button
-    (click)="onPageChange(currentPage + 1)"
-    [disabled]="isDisabled || totalPages <= 0 || currentPage === totalPages"
-  >
-    next
-  </button>
-</div>
+</nav>
+

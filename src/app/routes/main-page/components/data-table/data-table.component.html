@@ -1,0 +1,19 @@
+<table>
+  <tr>
+    <th>Avatar</th>
+    <th>Name</th>
+    <th>Species</th>
+    <th>Status</th>
+  </tr>
+  @if (!isLoading) {
+    @if (tableRows.length !== 0) {
+      @for (row of tableRows; track row.id) {
+        <tr app-table-row [rowData]="row" (nameClick)="onNameClick($event)"></tr>
+      }
+    } @else {
+      <p>No rows here!</p>
+    }
+  } @else {
+    <app-loading-spinner></app-loading-spinner>
+  }
+</table>

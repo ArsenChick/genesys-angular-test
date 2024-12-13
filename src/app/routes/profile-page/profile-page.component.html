@@ -1,0 +1,26 @@
+<div>
+  <a role="button" [routerLink]="[homeLink]">Back</a>
+  <main>
+    @if (characterData$ | async; as character) {
+      @if (character.id !== -1) {
+        <img
+          [ngSrc]="character.image"
+          [alt]="character.name + ' Avatar'"
+          width="320" height="320"
+          priority
+        />
+        <ul>
+          <li>Name: {{character.name}}</li>
+          <li>Species: {{character.species}}</li>
+          <li>Gender: {{character.gender}}</li>
+          <li>Status: {{character.status}}</li>
+        </ul>
+      } @else {
+        <p>It seems that the data... was not found! Or something is wrong with the server. Either way, you don't want to stay here probably.</p>
+      }
+    } @else {
+      <app-loading-spinner></app-loading-spinner>
+    }
+  </main>
+</div>
+

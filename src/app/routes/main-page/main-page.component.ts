@@ -1,22 +1,22 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { Observable, Subject, Subscription, takeUntil, timer } from 'rxjs';
+import { distinctUntilChanged, map, Observable, startWith, switchMap, timer } from 'rxjs';
 
-import { DataTableComponent } from "./components/data-table/data-table.component";
-import { SearchBarComponent } from "./components/search-bar/search-bar.component";
-import { PaginatorComponent } from "./components/paginator/paginator.component";
-import { LoadingSpinnerComponent } from "../../components/loading-spinner/loading-spinner.component";
+import { CharacterTableComponent } from '../../features/heroes/components/character-table/character-table.component';
+import { SearchBarComponent } from '../../features/search-bar/search-bar.component';
+import { PaginatorComponent } from '../../features/paginator/paginator.component';
+import { LoadingSpinnerComponent } from '../../components/widgets/loading-spinner/loading-spinner.component';
 
-import { RickAndMortyApiService } from '../../services/rick-and-morty-api.service';
+import { RickAndMortyApiService } from '../../features/heroes/services/rick-and-morty-api.service';
 
-import { IGetCharacterResponse } from '../../interfaces/api-responses.interface';
+import { ICharacter } from '../../features/heroes/interfaces/character.interface';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
   imports: [
     AsyncPipe,
-    DataTableComponent,
+    CharacterTableComponent,
     LoadingSpinnerComponent,
     SearchBarComponent,
     PaginatorComponent,
@@ -25,62 +25,36 @@ import { IGetCharacterResponse } from '../../interfaces/api-responses.interface'
   styleUrl: './main-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainPageComponent implements OnInit, OnDestroy {
+export class MainPageComponent implements OnInit {
 
-  totalPages$!: Observable<number>;
-  currentPageData$!: Observable<IGetCharacterResponse[]>;
+  readonly totalPages$: Observable<number> = this.apiService.totalPages$;
+  readonly currentPageData$: Observable<ICharacter[]> = this.apiService.currentPageData$;
+  readonly isPaginatorDisabled$: Observable<boolean> = this.apiService.loadingData$;
+  readonly currentPage$ = this.apiService.currentPage$;
 
-  isPaginatorDisabled = true;
-  isTableLoading = true;
-  currentSearchTerm = '';
-  currentPage = 1;
-
-  private destroy$ = new Subject<void>();
-  private tableLoadingDelaySubscription?: Subscription;
+  readonly isTableLoading$ = this.apiService.loadingData$.pipe(
+    switchMap(loading => loading
+      ? timer(250).pipe(map(() => true))
+      : timer(0).pipe(map(() => false)),
+    ),
+    startWith(false),
+    distinctUntilChanged(),
+  );
 
   constructor (
-    private apiService: RickAndMortyApiService,
-    private changeDetectionRef: ChangeDetectorRef,
+    private readonly apiService: RickAndMortyApiService,
   ) {}
 
   onNameChange(name: string) {
-    this.currentSearchTerm = name;
-    this.onPageChange(1);
+    this.apiService.setName(name);
   }
 
   onPageChange(page: number) {
-    this.isPaginatorDisabled = true;
-    this.tableLoadingDelaySubscription = timer(250)     // <--- To prevent flickering of loading
-      .pipe(takeUntil(this.destroy$))                   //      spinner decided to add a delay for
-      .subscribe(_ => {                                 //      setting the property to true
-        this.isTableLoading = true;
-        this.changeDetectionRef.markForCheck();
-      });      
-    this.currentPage = page;
-    this.apiService.getPageOfCharactersByName(page, this.currentSearchTerm);
+    this.apiService.setPage(page);
   }
 
   ngOnInit() {
-    this.totalPages$ = this.apiService.totalPages$;
-    this.currentPageData$ = this.apiService.currentPageData$;
-
-    this.currentPageData$.pipe(
-      takeUntil(this.destroy$),
-    ).subscribe(_ => {
-      if (this.tableLoadingDelaySubscription) {
-        // If there was a subscription, unsubscribe
-        this.tableLoadingDelaySubscription.unsubscribe();
-      }
-      this.isPaginatorDisabled = false;
-      this.isTableLoading = false;
-    });
-
-    this.apiService.getPageOfCharactersByName(
-      this.currentPage, this.currentSearchTerm);
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.apiService.setPage(1);
+    this.apiService.setName('');
   }
 }

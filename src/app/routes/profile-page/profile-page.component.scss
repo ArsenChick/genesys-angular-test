@@ -1,0 +1,101 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  gap: 1rem;
+  padding: 1rem;
+
+  .back-link-container {
+    .back-link {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #ffffff;
+      background-color: #49c0b6;
+      border: none;
+      border-radius: 4px;
+      text-decoration: none;
+      text-align: center;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    
+      &:hover,
+      &:focus {
+        background-color: #3aa89e;
+        transform: scale(1.05);
+        text-decoration: none;
+      }
+    
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  .profile-main {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-radius: 6px;
+  }
+
+  .profile-article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    flex-grow: 1;
+
+    .profile-figure {
+      margin: 0;
+
+      img {
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .profile-details {
+      width: 100%;
+      max-width: 400px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem;
+
+      dt {
+        font-weight: bold;
+      }
+
+      dd {
+        text-align: right;
+        margin: 0;
+      }
+    }
+  }
+
+  .error-section {
+    text-align: center;
+    color: #ff6b6b;
+  }
+
+  app-loading-spinner {
+    border-radius: 6px;
+  }
+
+  @media (min-width: 768px) {
+    .profile-article {
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+
+      .profile-details {
+        margin-left: 2rem;
+      }
+    }
+  }
+}
+
+

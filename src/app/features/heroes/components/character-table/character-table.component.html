@@ -1,0 +1,39 @@
+<div class="character-table-container">
+  <table class="character-table">
+    <thead>
+      <tr>
+        <th scope="col">Avatar</th>
+        <th scope="col">Name</th>
+        <th scope="col">Species</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    @if (!isLoading) {
+      <tbody>
+        @for (row of tableRows; track row.id) {
+          <tr
+            app-character-row
+            [characterRow]="row"
+            (nameClick)="onNameClick($event)"
+          ></tr>
+        }
+      </tbody>
+    } @else {
+      <tbody>
+        <tr class="loading-row">
+          <td colspan="4" class="loading-cell">
+            <app-loading-spinner></app-loading-spinner>
+          </td>
+        </tr>
+      </tbody>
+    }
+  </table>
+  @if (!isLoading && tableRows.length === 0) {
+    <div class="no-data-message">
+      No rows to display! Or something went wrong, sorry!
+    </div>
+  }
+</div>
+
+
+

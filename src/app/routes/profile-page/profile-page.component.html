@@ -1,18 +1,34 @@
-<div>
-  <a [routerLink]="[homeLink]" aria-label="Go back to the home page">Back</a>
-  <main>
-    @if (characterData$ | async; as character) {
-      @if (character.id !== -1) {
-        <article>
-          <figure>
+<div class="profile-page">
+  <div class="back-link-container">
+    <a
+      class="back-link"
+      [routerLink]="[homeLink]"
+      aria-label="Go back to the home page"
+      role="button">
+      Back
+    </a>
+  </div>
+  <main class="profile-main">
+    @if (error(); as error) {
+      <section class="error-section" role="alert">
+        <p>
+          It seems that the data was not found! Or something is wrong with the server.
+          Either way, you don't want to stay here probably.
+        </p>
+      </section>
+    } @else {
+      @if (characterData$ | async; as character) {
+        <article class="profile-article">
+          <figure class="profile-figure">
             <img
               [ngSrc]="character.image"
               [alt]="character.name + ' Avatar'"
-              width="320" height="320"
+              width="320"
+              height="320"
               priority
             />
           </figure>
-          <dl>
+          <dl class="profile-details">
             <dt>Name:</dt>
             <dd>{{character.name}}</dd>
             <dt>Species:</dt>
@@ -24,12 +40,8 @@
           </dl>
         </article>
       } @else {
-        <section role="alert">
-          <p>It seems that the data was not found! Or something is wrong with the server. Either way, you don't want to stay here probably.</p>
-        </section>
+        <app-loading-spinner></app-loading-spinner>
       }
-    } @else {
-      <app-loading-spinner></app-loading-spinner>
     }
   </main>
 </div>

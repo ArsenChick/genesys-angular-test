@@ -1,0 +1,14 @@
+<div class="search-bar">
+  <form role="search" [ariaLabel]="label">
+    @if (label) {
+      <label for="name" class="search-label">{{label}}</label>
+    }
+    <input
+      id="name"
+      type="text"
+      [formControl]="searchBar"
+      class="search-input"
+      [placeholder]="placeholder"
+    />
+  </form>
+</div>

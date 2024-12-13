@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { catchError, distinctUntilChanged, EMPTY, map, switchMap } from 'rxjs';
 
-import { LoadingSpinnerComponent } from "../../components/loading-spinner/loading-spinner.component";
+import { LoadingSpinnerComponent } from '../../components/widgets/loading-spinner/loading-spinner.component';
 
-import { RickAndMortyApiService } from '../../services/rick-and-morty-api.service';
-import { IGetCharacterResponse } from '../../interfaces/api-responses.interface';
-import { ERROR_CHAR, ROUTE_NAMES } from '../../constants';
+import { RickAndMortyApiService } from '../../features/heroes/services/rick-and-morty-api.service';
+
+import { ROUTE_NAMES } from '../../constants';
 
 @Component({
   selector: 'app-profile-page',
@@ -22,22 +22,35 @@ import { ERROR_CHAR, ROUTE_NAMES } from '../../constants';
   styleUrl: './profile-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent {
+  readonly characterId$ = this.route.paramMap.pipe(
+    map(params => Number(params.get('id'))),
+    distinctUntilChanged(),
+  );
 
-  characterData$!: Observable<IGetCharacterResponse>;
+  readonly characterData$ = this.characterId$.pipe(
+    switchMap(id => {
+      if (!isNaN(id)) {
+        this.error.set(false);
+
+        return this.apiService.getCharacterById(id).pipe(
+          catchError(() => {
+            this.error.set(true);
+            return EMPTY;
+          })
+        )
+      }
+
+      this.error.set(true);
+      return EMPTY;
+    }),
+  );
+
   homeLink = `/${ROUTE_NAMES.home}`;
+  error = signal(false);
 
   constructor (
     private apiService: RickAndMortyApiService,
     private route: ActivatedRoute,
   ) {}
-
-  ngOnInit(): void {
-    const characterId = Number(this.route.snapshot.paramMap.get('id'));
-    if (isNaN(characterId)) {
-      this.characterData$ = of(ERROR_CHAR);
-    } else {
-      this.characterData$ = this.apiService.getCharacterById(characterId);
-    }
-  }
 }

@@ -1,0 +1,25 @@
+<nav class="paginator" aria-label="Pagination">
+  @if (totalPages > 0) {
+    <p class="paginator-status">
+      <span aria-live="polite">Page {{currentPage}} of {{totalPages}}</span>
+    </p>
+    <div class="paginator-controls">
+      <button
+        class="paginator-btn"
+        (click)="onPageChange(currentPage - 1)"
+        [disabled]="isDisabled || totalPages <= 0 || currentPage === 1"
+        aria-label="Go to previous page"
+      >
+        &lt;
+      </button>
+      <button
+        class="paginator-btn"
+        (click)="onPageChange(currentPage + 1)"
+        [disabled]="isDisabled || totalPages <= 0 || currentPage === totalPages"
+        aria-label="Go to next page"
+      >
+        &gt;
+      </button>
+    </div>
+  }
+</nav>

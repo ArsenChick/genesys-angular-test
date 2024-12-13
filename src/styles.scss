@@ -49,3 +49,11 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+body {
+	height: 100vh;
+}
+
+router-outlet + * {
+  flex: 1;
+}

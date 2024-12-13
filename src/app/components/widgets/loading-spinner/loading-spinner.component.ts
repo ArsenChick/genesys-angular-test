@@ -1,7 +1,7 @@
 import { NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { LOADING_IMG_PATH } from '../../constants';
+import { LOADING_IMG_PATH } from '../../../constants';
 
 @Component({
   selector: 'app-loading-spinner',

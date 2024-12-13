@@ -1,25 +1,42 @@
-<main>
-  <header>
-    <app-search-bar (nameChange)="onNameChange($event)"></app-search-bar>
+<main class="main-page">
+  <header class="main-header">
+    <app-search-bar
+      label="Search by name"
+      placeholder="Enter a character name"
+      (nameChange)="onNameChange($event)">
+    </app-search-bar>
   </header>
-  
-  <section aria-labelledby="data-section">
-    <h2 id="data-section">Character Data</h2>
-    @if (totalPages$ | async; as totalPages) {
-      <app-paginator
-        [currentPage]="currentPage"
-        [totalPages]="totalPages"
-        [isDisabled]="isPaginatorDisabled"
-        (pageChange)="onPageChange($event)">
-      </app-paginator>
-    }
+
+  <section class="data-section" aria-labelledby="data-section-title">
+    <div class="controls-container">
+      <h2 id="data-section-title">Character Data</h2>
+
+      @if (totalPages$ | async; as totalPages) {
+        <app-paginator
+          class="data-paginator"
+          [currentPage]="(currentPage$ | async) ?? 0"
+          [totalPages]="totalPages"
+          [isDisabled]="(isPaginatorDisabled$ | async) ?? true"
+          (pageChange)="onPageChange($event)">
+        </app-paginator>
+      }
+    </div>
+    
     @if (currentPageData$ | async; as data) {
-      <app-data-table [tableRows]="data" [isLoading]="isTableLoading"></app-data-table>
+      <div class="character-table-container">
+        <app-character-table
+          class="character-table"
+          [tableRows]="data"
+          [isLoading]="(isTableLoading$ | async) ?? false">
+        </app-character-table>
+      </div>
     } @else {
-      <div role="status">
-        <p>Loading character data...</p>
+      <div class="loading-container" role="status">
+        <p class="loading-text">Loading character data...</p>
         <app-loading-spinner></app-loading-spinner>
       </div>
     }
   </section>
 </main>
+
+<!-- [isLoading]="(isTableLoading$ | async) ?? false"> -->

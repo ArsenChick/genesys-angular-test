@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { ROUTE_NAMES } from '../../constants';
+import { ROUTE_NAMES } from '../../../constants';
 
 @Component({
   selector: 'app-header',

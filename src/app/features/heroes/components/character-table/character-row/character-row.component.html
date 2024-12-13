@@ -1,0 +1,18 @@
+<ng-container>
+  @if (characterRow) {
+    <td class="image-cell">
+      <div class="image-container">
+        <img 
+          [ngSrc]="characterRow.image" 
+          [alt]="characterRow.name + ' avatar'" 
+          fill
+        />
+      </div>
+    </td>
+    <td>{{characterRow.name}}</td>
+    <td>{{characterRow.species}}</td>
+    <td>{{characterRow.status}}</td>
+  } @else {
+    <td colspan="4">Mysterious row! You're not supposed to see this.</td>
+  }
+</ng-container>

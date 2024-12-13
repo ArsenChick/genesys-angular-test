@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+.app-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  font-family: "Bungee", 'Arial', sans-serif;
+
+  app-header {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+  }
+}

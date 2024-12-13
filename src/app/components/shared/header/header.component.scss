@@ -1,0 +1,50 @@
+.header {
+  background: #2a2a2a;
+  padding: 1rem;
+  text-align: center;
+
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+    margin: 0;
+
+    .header-link {
+      text-decoration: none;
+      color: #49c0b6;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #facc15;
+        text-shadow: 0 0 8px #49c0b6;
+      }
+
+      .header-text {
+        display: inline-block;
+        border-bottom: 2px solid #49c0b6;
+        padding: 0.2rem 0;
+        transition: border-color 0.3s ease;
+
+        &:hover {
+          border-color: #facc15;
+        }
+      }
+    }
+  }
+
+  // Responsive styling
+  @media (min-width: 768px) {
+    .header-title {
+      font-size: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .header-title {
+      font-size: 2.5rem;
+    }
+  }
+}

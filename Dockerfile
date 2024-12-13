@@ -19,5 +19,6 @@ COPY ./nginx.conf /etc/nginx/conf.d/
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=node $APP/dist /usr/share/nginx/html
+EXPOSE 4200
 
 CMD ["nginx", "-g", "daemon off;"]

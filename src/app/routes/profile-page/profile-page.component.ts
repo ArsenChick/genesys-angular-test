@@ -23,6 +23,7 @@ import { ROUTE_NAMES } from '../../constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfilePageComponent {
+  // Get id param observable
   readonly characterId$ = this.route.paramMap.pipe(
     map(params => Number(params.get('id'))),
     distinctUntilChanged(),
@@ -30,16 +31,17 @@ export class ProfilePageComponent {
 
   readonly characterData$ = this.characterId$.pipe(
     switchMap(id => {
+      // Consider only numeric values for the param
       if (!isNaN(id)) {
         this.error.set(false);
-
+        
         return this.apiService.getCharacterById(id).pipe(
           catchError(() => {
             this.error.set(true);
             return EMPTY;
           }));
       }
-
+      // Else, if not a number, we can already prevent making a failing request
       this.error.set(true);
       return EMPTY;
     }),

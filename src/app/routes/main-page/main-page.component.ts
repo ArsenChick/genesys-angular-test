@@ -32,10 +32,11 @@ export class MainPageComponent implements OnInit {
   readonly isPaginatorDisabled$: Observable<boolean> = this.apiService.loadingData$;
   readonly currentPage$ = this.apiService.currentPage$;
 
+  // To prevent flickering of the loading spinner
   readonly isTableLoading$ = this.apiService.loadingData$.pipe(
     switchMap(loading => loading
-      ? timer(250).pipe(map(() => true))
-      : timer(0).pipe(map(() => false)),
+      ? timer(250).pipe(map(() => true))      // Delaying the value of isTableLoading$ = true
+      : timer(0).pipe(map(() => false)),      // However, false will arrive immediately
     ),
     startWith(false),
     distinctUntilChanged(),
@@ -54,6 +55,7 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    // First page, no name filter
     this.apiService.setPage(1);
     this.apiService.setName('');
   }

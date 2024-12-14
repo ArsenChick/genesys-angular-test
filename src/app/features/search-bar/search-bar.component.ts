@@ -19,6 +19,7 @@ export class SearchBarComponent {
   readonly searchBar = new FormControl('');
 
   constructor() {
+    // Want to send values only if they have changed
     this.searchBar.valueChanges.pipe(
       distinctUntilChanged(),
       takeUntilDestroyed(),

@@ -15,6 +15,7 @@ export class CharacterRowComponent {
   @Input() characterRow?: ICharacter;
   @Output() nameClick = new EventEmitter<number>();
 
+  // Adding accessibility attribute values onto the component host
   @HostBinding('attr.role')
   private readonly _role = 'link';
   @HostBinding('attr.tabindex')

@@ -16,7 +16,7 @@ export class SearchBarComponent {
   @Input() label = 'Search';
   @Input() placeholder = 'Enter search term';
 
-  searchBar = new FormControl('');
+  readonly searchBar = new FormControl('');
 
   constructor() {
     this.searchBar.valueChanges.pipe(

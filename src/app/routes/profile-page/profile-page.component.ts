@@ -37,8 +37,7 @@ export class ProfilePageComponent {
           catchError(() => {
             this.error.set(true);
             return EMPTY;
-          })
-        )
+          }));
       }
 
       this.error.set(true);
@@ -46,11 +45,11 @@ export class ProfilePageComponent {
     }),
   );
 
-  homeLink = `/${ROUTE_NAMES.home}`;
-  error = signal(false);
+  readonly homeLink = `/${ROUTE_NAMES.home}`;
+  readonly error = signal(false);
 
   constructor (
-    private apiService: RickAndMortyApiService,
-    private route: ActivatedRoute,
+    private readonly apiService: RickAndMortyApiService,
+    private readonly route: ActivatedRoute,
   ) {}
 }

@@ -16,11 +16,11 @@ export class CharacterRowComponent {
   @Output() nameClick = new EventEmitter<number>();
 
   @HostBinding('attr.role')
-  private readonly role = 'link';
+  private readonly _role = 'link';
   @HostBinding('attr.tabindex')
-  private readonly tabindex = '0';
+  private readonly _tabindex = '0';
   @HostBinding('attr.ariaLabel')
-  private get ariaLabel() {
+  private get _ariaLabel() {
     return `View details for ${this.characterRow?.name}`;
   }
 

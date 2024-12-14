@@ -20,7 +20,7 @@ export class CharacterTableComponent {
   @Input() isLoading = true;
 
   constructor(
-    private router: Router,
+    private readonly router: Router,
   ) {}
 
   onNameClick(id: number) {

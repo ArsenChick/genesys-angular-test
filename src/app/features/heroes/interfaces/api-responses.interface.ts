@@ -4,5 +4,5 @@ export interface IGetAllCharactersResponse {
   info: {
     pages: number;
   };
-  results: ICharacter[]
+  results: ICharacter[];
 }
